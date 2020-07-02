@@ -1,17 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
-import { List, Avatar, Row, Col, Form, Button, Input, message } from 'antd';
+import { List, Avatar, Row, Col, Form, message } from 'antd';
 import InfiniteScroll from 'react-infinite-scroller';
 
 import Layout from '../layout'
+import UserForm from '../views/userForm'
 import Spinner from '../components/Spinner/Spinner'
 
 import axios from '../axiosConfig'
-
-const tailLayout = {
-  wrapperCol: { offset: 2 },
-};
 
 const Home = () => {
 	const [users, setUsers] = useState([])
@@ -80,49 +77,7 @@ const Home = () => {
 				</Col>
 				<Col span={18}>
 					<ContentWrapper>
-						<H2>Добавить пользователя</H2>
-						<Form form={form} labelCol={{ span: 2 }} wrapperCol={{ span: 12 }} layout="horizontal" onFinish={addUser}>
-							<Form.Item
-								name="first_name"
-								label="Имя"
-								rules={[{ required: true, message: 'Введите ваше имя' }]}
-							>
-								<Input />
-							</Form.Item>
-							<Form.Item
-								name="last_name"
-								label="Фамилия"
-								rules={[{ required: true, message: 'Введите вашу фамилию' }]}
-							>
-								<Input />
-							</Form.Item>
-							<Form.Item
-								label="Email"
-								name="email"
-								rules={[
-									{ 
-										required: true,
-										message: 'Введите ваш email'
-									},
-									{
-										type: 'email',
-										message: 'Неправильный формат email',
-									},
-								]}
-							>
-								<Input name="email" placeholder="email" autoComplete="off" />
-							</Form.Item>
-							<Form.Item
-								label="Password"
-								name="password"
-								rules={[{ required: true, message: 'Введите пароль' }]}
-							>
-         	 			<Input.Password name="password" placeholder="пароль" autoComplete="new-password" />
-        			</Form.Item>
-							<Form.Item { ...tailLayout }>
-								<Button type="primary" htmlType="submit">Button</Button>
-							</Form.Item>
-						</Form>
+						<UserForm title="Добавить пользователя" onSubmit={addUser} formInstance={form} />
 					</ContentWrapper>
 				</Col>
 			</Row>
