@@ -1,16 +1,19 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom'
+import { useParams, useHistory } from 'react-router-dom'
+import { Button, Descriptions, message } from 'antd'
 
+import Layout from '../layout'
+import NotFound from '../components/NotFound/NotFound'
 import Spinner from '../components/Spinner/Spinner'
 
 import axios from '../axiosConfig'
 
-const NotFound = () => <p>User not found</p>
 
 const User = () => {
 	const [user, setUser] = useState(null)
 	const [notFound, setNotFound] = useState(false)
 	const { id } = useParams()
+	const history = useHistory()
 
 	useEffect(() => {
 		const exist = id % 2
@@ -22,9 +25,22 @@ const User = () => {
 		}
 	}, [])
 
+	const deleteUser = async () => {
+		try {
+			const response = await axios.delete('/users/2')
+			const status = await response.status
+
+			if (status === 204) {
+				message.success('Пользователь удален', 1, () => history.push('/'));
+			}
+		} catch (error) {
+			console.error(error)
+		}
+	}
+
 	const getUser = async () => {
 		try {
-			const response = await axios.post('/users/2')
+			const response = await axios.get('/users/2')
 
 			const { data, ad } = await response.data
 
@@ -35,15 +51,31 @@ const User = () => {
 	}
 
 	if (notFound) {
-		return <NotFound />
+		return (
+			<Layout>
+				<NotFound />
+			</Layout>
+		)
 	}
 
 	if (!user) {
-		return <Spinner />
+		return (
+			<Layout>
+				<Spinner />
+			</Layout>
+		)
 	}
 
 	return (
-		<p>{id}</p>
+		<Layout>
+			<Descriptions title="Пользователь">
+				<Descriptions.Item label="id">{user.id}</Descriptions.Item>
+				<Descriptions.Item label="First name">{user.first_name}</Descriptions.Item>
+				<Descriptions.Item label="Last name">{user.last_name}</Descriptions.Item>
+				<Descriptions.Item label="Email">{user.email}</Descriptions.Item>
+			</Descriptions>
+			<Button onClick={deleteUser} danger>Удалить пользователя</Button>
+		</Layout>
 	);
 }
  

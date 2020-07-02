@@ -90,7 +90,7 @@ const Login = observer(() => {
             },
           ]}
         >
-          <Input name="email" prefix={<UserOutlined style={{ color: '#b5b5b5' }} />} placeholder="Username" autoComplete="off" />
+          <Input name="email" prefix={<UserOutlined style={{ color: '#b5b5b5' }} />} placeholder="email" autoComplete="off" />
         </Form.Item>
 
         <Form.Item
@@ -98,7 +98,7 @@ const Login = observer(() => {
           name="password"
           rules={[{ required: true, message: 'Введите пароль' }]}
         >
-          <Input.Password name="password" prefix={<LockOutlined style={{ color: '#b5b5b5' }} />} placeholder="Password" autoComplete="new-password" />
+          <Input.Password name="password" prefix={<LockOutlined style={{ color: '#b5b5b5' }} />} placeholder="пароль" autoComplete="new-password" />
         </Form.Item>
 
         <Form.Item {...tailLayout}>
